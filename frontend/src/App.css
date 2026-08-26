@@ -1,0 +1,181 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: linear-gradient(
+    135deg,
+    #eab7a1,
+    #eba199,
+    #e66f6f
+  );
+
+  color: #2c2c2c;
+  font-family: "Poppins", sans-serif;
+}
+
+@keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.container {
+  max-width: 1100px;
+  margin: auto;
+  padding: 40px 20px;
+
+  overflow-x: hidden;
+}
+
+.title {
+  text-align: center;
+  font-size: 3rem;
+  line-height: 1.2;
+  margin-bottom: 20px;
+
+  background: linear-gradient(
+    90deg,
+    #38bdf8,
+    #818cf8,
+    #ec4899
+  );
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  white-space: normal;
+  overflow: visible;
+}
+
+@keyframes glow {
+  50% {
+    transform: scale(1.03);
+  }
+}
+
+.card {
+  background: rgba(255,255,255,0.75);
+  backdrop-filter: blur(12px);
+
+  border-radius: 20px;
+
+  padding: 35px;
+
+  margin-bottom: 40px;   
+}
+
+.card:hover {
+  transform: translateY(-5px);
+
+  box-shadow:
+    0 10px 30px rgba(
+      59,
+      130,
+      246,
+      0.3
+    );
+}
+
+.card h2 {
+  margin-bottom: 15px;
+  color: #60a5fa;
+}
+
+input,
+textarea {
+  width: 100%;
+
+  padding: 14px;
+
+  border-radius: 12px;
+
+  border: none;
+
+  margin-top: 10px;
+  margin-bottom: 15px;
+
+  background: rgba(
+    255,
+    255,
+    255,
+    0.1
+  );
+
+  color: #2c2c2c;
+  
+}
+
+input:focus,
+textarea:focus {
+  outline: 2px solid #3b82f6;
+}
+
+.button-group {
+  display: flex;
+  gap: 20px;
+  margin-top: 20px;
+  
+}
+
+button {
+  padding: 14px 24px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  background: linear-gradient(
+    90deg,
+    #38bdf8,
+    #818cf8,
+    #ec4899
+  );
+}
+
+button:hover {
+  transform: scale(1.05);
+
+  box-shadow:
+    0 0 20px rgba(
+      99,
+      102,
+      241,
+      0.6
+    );
+}
+
+pre {
+  white-space: pre-wrap;
+  line-height: 1.6;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #6366f1;
+  border-radius: 10px;
+}
+
+.app-layout {
+  min-height: 100vh;
+  display: flex;
+  background: #f7f8fc;
+}
+
+.app-content {
+  flex: 1;
+  margin-left: 250px;
+  min-width: 0;
+}
