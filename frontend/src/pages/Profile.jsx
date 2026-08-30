@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../firebase";
 import {
   User,
   Mail,
@@ -9,20 +11,40 @@ import {
 import "./ExtraPages.css";
 
 const Profile = () => {
-  const savedProfile =
-    JSON.parse(localStorage.getItem("userProfile")) || {};
-
+  const [currentUser, setCurrentUser] = useState(null);
   const [profile, setProfile] = useState({
-    name: savedProfile.name || "Your Name",
-    email: savedProfile.email || "",
-    education: savedProfile.education || "Bachelor's Degree",
-    experience: savedProfile.experience || "Fresher",
-    bio:
-      savedProfile.bio ||
-      "Aspiring software developer preparing for technical interviews.",
+    name: "Your Name",
+    email: "",
+    education: "Bachelor's Degree",
+    experience: "Fresher",
+    bio: "Aspiring software developer preparing for technical interviews.",
   });
 
   const [saved, setSaved] = useState(false);
+
+  // Watch for login/logout and load the CORRECT user's profile
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setCurrentUser(user);
+
+      if (user) {
+        const storageKey = `userProfile_${user.uid}`;
+        const savedProfile = JSON.parse(localStorage.getItem(storageKey)) || {};
+
+        setProfile({
+          name: savedProfile.name || user.displayName || "Your Name",
+          email: savedProfile.email || user.email || "",
+          education: savedProfile.education || "Bachelor's Degree",
+          experience: savedProfile.experience || "Fresher",
+          bio:
+            savedProfile.bio ||
+            "Aspiring software developer preparing for technical interviews.",
+        });
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   const handleChange = (e) => {
     setProfile({
@@ -36,10 +58,10 @@ const Profile = () => {
   const handleSave = (e) => {
     e.preventDefault();
 
-    localStorage.setItem(
-      "userProfile",
-      JSON.stringify(profile)
-    );
+    if (!currentUser) return;
+
+    const storageKey = `userProfile_${currentUser.uid}`;
+    localStorage.setItem(storageKey, JSON.stringify(profile));
 
     setSaved(true);
 
