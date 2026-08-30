@@ -13,11 +13,9 @@ const Profile = () => {
     JSON.parse(localStorage.getItem("userProfile")) || {};
 
   const [profile, setProfile] = useState({
-    name: savedProfile.name || "Vidhi Khurana",
+    name: savedProfile.name || "Your Name",
     email: savedProfile.email || "",
-    education:
-      savedProfile.education ||
-      "Bachelor of Engineering",
+    education: savedProfile.education || "Bachelor's Degree",
     experience: savedProfile.experience || "Fresher",
     bio:
       savedProfile.bio ||
@@ -53,18 +51,16 @@ const Profile = () => {
   return (
     <div className="extra-page">
       <div className="page-header">
-        <div>
-          <span className="page-tag">
-            <User size={16} />
-            ACCOUNT
-          </span>
+        <span className="page-tag">
+          <User size={16} />
+          ACCOUNT
+        </span>
 
-          <h1>My Profile</h1>
+        <h1>My Profile</h1>
 
-          <p>
-            Manage your personal information and interview preferences.
-          </p>
-        </div>
+        <p>
+          Manage your personal information and interview preferences.
+        </p>
       </div>
 
       <div className="profile-layout">

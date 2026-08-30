@@ -1,4 +1,22 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+
+import {
+  useEffect,
+  useState,
+} from "react";
+
+import {
+  onAuthStateChanged,
+} from "firebase/auth";
+
+import {
+  auth,
+} from "./firebase";
 
 import Sidebar from "./components/Sidebar";
 
@@ -12,61 +30,113 @@ import PreviousSessions from "./pages/PreviousSessions";
 import Resources from "./pages/Resources";
 import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
+import Login from "./pages/Login";
 
 import "./App.css";
 
 function App() {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(
+      auth,
+      (currentUser) => {
+        setUser(currentUser);
+        setLoading(false);
+      }
+    );
+
+    return () => unsubscribe();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="app-loader">
+        Loading AI Interview Coach...
+      </div>
+    );
+  }
+
   return (
     <BrowserRouter>
-      <div className="app-layout">
-        <Sidebar />
+      <Routes>
+        <Route
+          path="/login"
+          element={
+            user ? (
+              <Navigate to="/" />
+            ) : (
+              <Login />
+            )
+          }
+        />
 
-        <main className="app-content">
-          <Routes>
-            <Route path="/" element={<Dashboard />} />
+        {user ? (
+          <Route
+            path="*"
+            element={
+              <div className="app-layout">
+                <Sidebar />
 
-            <Route
-              path="/resume-analysis"
-              element={<ResumeAnalysis />}
-            />
+                <main className="app-content">
+                  <Routes>
+                    <Route
+                      path="/"
+                      element={<Dashboard />}
+                    />
 
-            <Route
-              path="/mock-interview"
-              element={<MockInterview />}
-            />
+                    <Route
+                      path="/resume-analysis"
+                      element={<ResumeAnalysis />}
+                    />
 
-            <Route
-              path="/interview-session"
-              element={<InterviewSession />}
-            />
+                    <Route
+                      path="/mock-interview"
+                      element={<MockInterview />}
+                    />
 
-            <Route
-              path="/interview-report"
-              element={<InterviewReport />}
-            />
+                    <Route
+                      path="/interview-session"
+                      element={<InterviewSession />}
+                    />
 
-            <Route
-              path="/sessions"
-              element={<PreviousSessions />}
-            />
+                    <Route
+                      path="/interview-report"
+                      element={<InterviewReport />}
+                    />
 
-            <Route
-              path="/resources"
-              element={<Resources />}
-            />
+                    <Route
+                      path="/sessions"
+                      element={<PreviousSessions />}
+                    />
 
-            <Route
-              path="/profile"
-              element={<Profile />}
-            />
+                    <Route
+                      path="/resources"
+                      element={<Resources />}
+                    />
 
-            <Route
-              path="/settings"
-              element={<Settings />}
-            />
-          </Routes>
-        </main>
-      </div>
+                    <Route
+                      path="/profile"
+                      element={<Profile />}
+                    />
+
+                    <Route
+                      path="/settings"
+                      element={<Settings />}
+                    />
+                  </Routes>
+                </main>
+              </div>
+            }
+          />
+        ) : (
+          <Route
+            path="*"
+            element={<Navigate to="/login" />}
+          />
+        )}
+      </Routes>
     </BrowserRouter>
   );
 }

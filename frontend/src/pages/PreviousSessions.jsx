@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   History,
   Calendar,
@@ -28,35 +28,27 @@ const demoSessions = [
     score: "7.5",
     date: "Yesterday",
   },
-  {
-    id: 3,
-    role: "Software Engineer",
-    type: "HR Interview",
-    experience: "Fresher",
-    score: "8.5",
-    date: "Aug 28, 2026",
-  },
 ];
 
 const PreviousSessions = () => {
-  const [sessions, setSessions] = useState([]);
-  const [search, setSearch] = useState("");
-
-  useEffect(() => {
+  const [sessions, setSessions] = useState(() => {
     const savedSessions =
       JSON.parse(localStorage.getItem("interviewSessions")) || [];
 
-    if (savedSessions.length > 0) {
-      setSessions(savedSessions);
-    } else {
-      setSessions(demoSessions);
-    }
-  }, []);
+    return savedSessions.length > 0
+      ? savedSessions
+      : demoSessions;
+  });
+
+  const [search, setSearch] = useState("");
 
   const deleteSession = (id) => {
-    const updated = sessions.filter((session) => session.id !== id);
+    const updated = sessions.filter(
+      (session) => session.id !== id
+    );
 
     setSessions(updated);
+
     localStorage.setItem(
       "interviewSessions",
       JSON.stringify(updated)
@@ -64,7 +56,9 @@ const PreviousSessions = () => {
   };
 
   const filteredSessions = sessions.filter((session) =>
-    session.role.toLowerCase().includes(search.toLowerCase())
+    session.role
+      .toLowerCase()
+      .includes(search.toLowerCase())
   );
 
   const averageScore =
@@ -81,23 +75,23 @@ const PreviousSessions = () => {
   return (
     <div className="extra-page">
       <div className="page-header">
-        <div>
-          <span className="page-tag">
-            <History size={16} />
-            YOUR HISTORY
-          </span>
+        <span className="page-tag">
+          <History size={16} />
+          YOUR HISTORY
+        </span>
 
-          <h1>Previous Sessions</h1>
+        <h1>Previous Sessions</h1>
 
-          <p>
-            Review your past interview sessions and track your progress.
-          </p>
-        </div>
+        <p>
+          Review your past interview sessions and
+          track your progress.
+        </p>
       </div>
 
       <div className="stats-grid">
         <div className="mini-stat">
           <FileText size={25} />
+
           <div>
             <span>Total Sessions</span>
             <h3>{sessions.length}</h3>
@@ -106,6 +100,7 @@ const PreviousSessions = () => {
 
         <div className="mini-stat">
           <TrendingUp size={25} />
+
           <div>
             <span>Average Score</span>
             <h3>{averageScore}/10</h3>
@@ -124,53 +119,52 @@ const PreviousSessions = () => {
               type="text"
               placeholder="Search by role..."
               value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              onChange={(e) =>
+                setSearch(e.target.value)
+              }
             />
           </div>
         </div>
 
-        {filteredSessions.length === 0 ? (
-          <div className="empty-state">
-            <History size={45} />
-            <h3>No sessions found</h3>
-            <p>Your completed interviews will appear here.</p>
-          </div>
-        ) : (
-          <div className="session-list">
-            {filteredSessions.map((session) => (
-              <div className="session-card" key={session.id}>
-                <div className="session-icon">
-                  <Briefcase size={22} />
-                </div>
-
-                <div className="session-info">
-                  <h3>{session.role}</h3>
-
-                  <p>
-                    {session.type} • {session.experience}
-                  </p>
-
-                  <span>
-                    <Calendar size={14} />
-                    {session.date}
-                  </span>
-                </div>
-
-                <div className="session-score">
-                  <span>Score</span>
-                  <strong>{session.score}/10</strong>
-                </div>
-
-                <button
-                  className="delete-btn"
-                  onClick={() => deleteSession(session.id)}
-                >
-                  <Trash2 size={18} />
-                </button>
+        <div className="session-list">
+          {filteredSessions.map((session) => (
+            <div
+              className="session-card"
+              key={session.id}
+            >
+              <div className="session-icon">
+                <Briefcase size={22} />
               </div>
-            ))}
-          </div>
-        )}
+
+              <div className="session-info">
+                <h3>{session.role}</h3>
+
+                <p>
+                  {session.type} • {session.experience}
+                </p>
+
+                <span>
+                  <Calendar size={14} />
+                  {session.date}
+                </span>
+              </div>
+
+              <div className="session-score">
+                <span>Score</span>
+                <strong>{session.score}/10</strong>
+              </div>
+
+              <button
+                className="delete-btn"
+                onClick={() =>
+                  deleteSession(session.id)
+                }
+              >
+                <Trash2 size={18} />
+              </button>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

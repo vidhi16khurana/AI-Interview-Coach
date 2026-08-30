@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   BookOpen,
   ChevronDown,
@@ -7,7 +8,6 @@ import {
   Lightbulb,
 } from "lucide-react";
 
-import { useState } from "react";
 import "./ExtraPages.css";
 
 const resources = [
@@ -64,18 +64,16 @@ const Resources = () => {
   return (
     <div className="extra-page">
       <div className="page-header">
-        <div>
-          <span className="page-tag">
-            <BookOpen size={16} />
-            LEARNING CENTER
-          </span>
+        <span className="page-tag">
+          <BookOpen size={16} />
+          LEARNING CENTER
+        </span>
 
-          <h1>Interview Resources</h1>
+        <h1>Interview Resources</h1>
 
-          <p>
-            Explore important topics and prepare for your next interview.
-          </p>
-        </div>
+        <p>
+          Explore important topics and prepare for your next interview.
+        </p>
       </div>
 
       <div className="tips-banner">
@@ -118,9 +116,7 @@ const Resources = () => {
                 <ChevronDown
                   size={22}
                   className={
-                    openId === resource.id
-                      ? "rotate-icon"
-                      : ""
+                    openId === resource.id ? "rotate-icon" : ""
                   }
                 />
               </button>

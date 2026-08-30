@@ -17,10 +17,7 @@ const Settings = () => {
   useEffect(() => {
     document.body.classList.toggle("dark-app", darkMode);
 
-    localStorage.setItem(
-      "darkMode",
-      darkMode
-    );
+    localStorage.setItem("darkMode", darkMode);
   }, [darkMode]);
 
   const clearSessions = () => {
@@ -48,18 +45,16 @@ const Settings = () => {
   return (
     <div className="extra-page">
       <div className="page-header">
-        <div>
-          <span className="page-tag">
-            <SettingsIcon size={16} />
-            PREFERENCES
-          </span>
+        <span className="page-tag">
+          <SettingsIcon size={16} />
+          PREFERENCES
+        </span>
 
-          <h1>Settings</h1>
+        <h1>Settings</h1>
 
-          <p>
-            Customize your AI Interview Coach experience.
-          </p>
-        </div>
+        <p>
+          Customize your AI Interview Coach experience.
+        </p>
       </div>
 
       <div className="settings-list">

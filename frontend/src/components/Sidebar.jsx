@@ -1,3 +1,4 @@
+import "./Sidebar.css";
 import {
   BarChart3,
   FileText,
@@ -10,19 +11,28 @@ import {
   Sparkles,
 } from "lucide-react";
 
-import { NavLink, useNavigate } from "react-router-dom";
+import {
+  NavLink,
+  useNavigate,
+} from "react-router-dom";
+
+import {
+  signOut,
+} from "firebase/auth";
+
+import {
+  auth,
+} from "../firebase";
 
 const Sidebar = () => {
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    const confirmLogout = window.confirm(
-      "Are you sure you want to logout?"
-    );
-
-    if (confirmLogout) {
-      localStorage.removeItem("userProfile");
-      navigate("/");
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      navigate("/login");
+    } catch (error) {
+      console.error("Logout error:", error);
     }
   };
 
