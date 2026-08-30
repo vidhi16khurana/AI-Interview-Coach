@@ -1,127 +1,139 @@
 import { useEffect, useState } from "react";
 import {
+  onAuthStateChanged,
+  signOut,
+} from "firebase/auth";
+
+import { useNavigate } from "react-router-dom";
+import { auth } from "../firebase";
+
+import {
+  User,
+  Mail,
+  LogOut,
   Settings as SettingsIcon,
-  Moon,
-  Sun,
-  Trash2,
-  RotateCcw,
 } from "lucide-react";
 
-import "./ExtraPages.css";
+import "./Settings.css";
 
 const Settings = () => {
-  const [darkMode, setDarkMode] = useState(
-    localStorage.getItem("darkMode") === "true"
-  );
+  const navigate = useNavigate();
+
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
-    document.body.classList.toggle("dark-app", darkMode);
-
-    localStorage.setItem("darkMode", darkMode);
-  }, [darkMode]);
-
-  const clearSessions = () => {
-    const confirmClear = window.confirm(
-      "Are you sure you want to delete all interview sessions?"
+    const unsubscribe = onAuthStateChanged(
+      auth,
+      (currentUser) => {
+        setUser(currentUser);
+      }
     );
 
-    if (confirmClear) {
-      localStorage.removeItem("interviewSessions");
-      alert("Interview sessions cleared successfully.");
-    }
-  };
+    return () => unsubscribe();
+  }, []);
 
-  const resetProfile = () => {
-    const confirmReset = window.confirm(
-      "Are you sure you want to reset your profile?"
-    );
+  const userName =
+    user?.displayName ||
+    user?.email?.split("@")[0] ||
+    "User";
 
-    if (confirmReset) {
-      localStorage.removeItem("userProfile");
-      alert("Profile reset successfully.");
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      navigate("/login");
+    } catch (error) {
+      console.error("Logout error:", error);
     }
   };
 
   return (
-    <div className="extra-page">
-      <div className="page-header">
-        <span className="page-tag">
-          <SettingsIcon size={16} />
-          PREFERENCES
-        </span>
+    <div className="settings-page">
+      <div className="settings-container">
 
-        <h1>Settings</h1>
+        <div className="settings-header">
+          <div className="settings-title-icon">
+            <SettingsIcon size={28} />
+          </div>
 
-        <p>
-          Customize your AI Interview Coach experience.
-        </p>
-      </div>
+          <div>
+            <h1>Settings</h1>
+            <p>Manage your account information</p>
+          </div>
+        </div>
 
-      <div className="settings-list">
-        <div className="setting-card">
-          <div className="setting-info">
-            {darkMode ? <Moon /> : <Sun />}
+        <div className="settings-card">
 
-            <div>
-              <h3>Dark Mode</h3>
+          <h2>Profile Information</h2>
+
+          <div className="profile-section">
+
+            <div className="profile-avatar">
+              {userName.charAt(0).toUpperCase()}
+            </div>
+
+            <div className="profile-info">
+              <h3>{userName}</h3>
 
               <p>
-                Change the appearance of your application.
+                {user?.email || "No email available"}
+              </p>
+
+              {user?.providerData?.[0]?.providerId ===
+                "google.com" && (
+                <span className="google-user">
+                  Signed in with Google
+                </span>
+              )}
+            </div>
+
+          </div>
+
+          <div className="settings-info-row">
+            <div className="info-icon">
+              <User size={20} />
+            </div>
+
+            <div>
+              <span>Name</span>
+              <p>{userName}</p>
+            </div>
+          </div>
+
+          <div className="settings-info-row">
+            <div className="info-icon">
+              <Mail size={20} />
+            </div>
+
+            <div>
+              <span>Email Address</span>
+              <p>
+                {user?.email || "No email available"}
               </p>
             </div>
           </div>
 
-          <button
-            className={`toggle-switch ${
-              darkMode ? "enabled" : ""
-            }`}
-            onClick={() => setDarkMode(!darkMode)}
-          >
-            <span></span>
-          </button>
         </div>
 
-        <div className="setting-card">
-          <div className="setting-info">
-            <Trash2 />
+        <div className="settings-card logout-card">
 
-            <div>
-              <h3>Clear Interview History</h3>
+          <div>
+            <h2>Logout</h2>
 
-              <p>
-                Permanently remove all saved interview sessions.
-              </p>
-            </div>
+            <p>
+              Sign out from your AI Interview Coach account.
+            </p>
           </div>
 
           <button
-            className="danger-btn"
-            onClick={clearSessions}
+            className="settings-logout-btn"
+            onClick={handleLogout}
           >
-            Clear Data
+            <LogOut size={18} />
+            Logout
           </button>
+
         </div>
 
-        <div className="setting-card">
-          <div className="setting-info">
-            <RotateCcw />
-
-            <div>
-              <h3>Reset Profile</h3>
-
-              <p>
-                Restore your profile information to default.
-              </p>
-            </div>
-          </div>
-
-          <button
-            className="secondary-btn"
-            onClick={resetProfile}
-          >
-            Reset
-          </button>
-        </div>
       </div>
     </div>
   );

@@ -26,7 +26,6 @@ const Login = () => {
   const navigate = useNavigate();
 
   const [isRegister, setIsRegister] = useState(false);
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -34,6 +33,7 @@ const Login = () => {
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
 
+  // EMAIL/PASSWORD LOGIN OR REGISTER
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -41,7 +41,7 @@ const Login = () => {
     setMessage("");
 
     if (!email || !password) {
-      setError("Please enter email and password.");
+      setError("Please enter both email and password.");
       return;
     }
 
@@ -56,7 +56,11 @@ const Login = () => {
         );
 
         setMessage("Account created successfully!");
-        navigate("/");
+
+        setTimeout(() => {
+          navigate("/");
+        }, 1000);
+
       } else {
         await signInWithEmailAndPassword(
           auth,
@@ -66,33 +70,26 @@ const Login = () => {
 
         navigate("/");
       }
-    } catch (error) {
-      console.error(error);
 
-      if (error.code === "auth/email-already-in-use") {
-        setError(
-          "This email is already registered. Please login."
-        );
-      } else if (error.code === "auth/invalid-credential") {
-        setError("Invalid email or password.");
-      } else if (error.code === "auth/weak-password") {
-        setError(
-          "Password must contain at least 6 characters."
-        );
-      } else {
-        setError(
-          "Something went wrong. Please try again."
-        );
-      }
+    } catch (error) {
+      console.error("Firebase Email Error:", error);
+
+      // EXACT FIREBASE ERROR SHOW KARO
+      setError(
+        `${error.code}: ${error.message}`
+      );
+
     } finally {
       setLoading(false);
     }
   };
 
+  // GOOGLE LOGIN
   const handleGoogleLogin = async () => {
     try {
       setLoading(true);
       setError("");
+      setMessage("");
 
       await signInWithPopup(
         auth,
@@ -100,23 +97,28 @@ const Login = () => {
       );
 
       navigate("/");
+
     } catch (error) {
-      console.error(error);
+      console.error("Firebase Google Error:", error);
+
+      // EXACT FIREBASE ERROR SHOW KARO
       setError(
-        "Google sign in failed. Please try again."
+        `${error.code}: ${error.message}`
       );
+
     } finally {
       setLoading(false);
     }
   };
 
+  // FORGOT PASSWORD
   const handleForgotPassword = async () => {
     setError("");
     setMessage("");
 
     if (!email) {
       setError(
-        "Please enter your email first, then click Forgot Password."
+        "Please enter your email address first."
       );
       return;
     }
@@ -130,14 +132,20 @@ const Login = () => {
       );
 
       setMessage(
-        "Password reset link has been sent to your email."
+        "Password reset link sent successfully. Please check your email."
       );
-    } catch (error) {
-      console.error(error);
 
-      setError(
-        "Unable to send password reset email."
+    } catch (error) {
+      console.error(
+        "Firebase Password Reset Error:",
+        error
       );
+
+      // EXACT FIREBASE ERROR SHOW KARO
+      setError(
+        `${error.code}: ${error.message}`
+      );
+
     } finally {
       setLoading(false);
     }
@@ -150,11 +158,13 @@ const Login = () => {
       <div className="login-left">
 
         <div className="login-brand">
+
           <div className="brand-icon">
             <Sparkles size={20} />
           </div>
 
           <h2>AI Interview Coach</h2>
+
         </div>
 
         <div className="login-content">
@@ -192,7 +202,9 @@ const Login = () => {
             </div>
 
           </div>
+
         </div>
+
       </div>
 
       {/* RIGHT SIDE */}
@@ -215,6 +227,7 @@ const Login = () => {
 
           <form onSubmit={handleSubmit}>
 
+            {/* EMAIL */}
             <input
               type="email"
               placeholder="Email Address"
@@ -222,8 +235,10 @@ const Login = () => {
               onChange={(e) =>
                 setEmail(e.target.value)
               }
+              required
             />
 
+            {/* PASSWORD */}
             <input
               type="password"
               placeholder="Password"
@@ -231,8 +246,11 @@ const Login = () => {
               onChange={(e) =>
                 setPassword(e.target.value)
               }
+              required
+              minLength="6"
             />
 
+            {/* FORGOT PASSWORD */}
             {!isRegister && (
               <button
                 type="button"
@@ -243,6 +261,7 @@ const Login = () => {
               </button>
             )}
 
+            {/* LOGIN / CREATE ACCOUNT */}
             <button
               type="submit"
               className="submit-btn"
@@ -257,11 +276,14 @@ const Login = () => {
 
           </form>
 
+          {/* DIVIDER */}
           <div className="divider">
             <span>OR</span>
           </div>
 
+          {/* GOOGLE LOGIN */}
           <button
+            type="button"
             className="google-login-btn"
             onClick={handleGoogleLogin}
             disabled={loading}
@@ -273,37 +295,46 @@ const Login = () => {
             Continue with Google
           </button>
 
+          {/* ERROR */}
           {error && (
             <p className="login-error">
               {error}
             </p>
           )}
 
+          {/* SUCCESS */}
           {message && (
             <p className="login-success">
               {message}
             </p>
           )}
 
+          {/* SWITCH LOGIN / REGISTER */}
           <p className="switch-account">
+
             {isRegister
               ? "Already have an account?"
               : "New here?"}
 
             <button
+              type="button"
               onClick={() => {
                 setIsRegister(!isRegister);
                 setError("");
                 setMessage("");
+                setEmail("");
+                setPassword("");
               }}
             >
               {isRegister
                 ? " Login"
                 : " Create an account"}
             </button>
+
           </p>
 
         </div>
+
       </div>
 
     </div>
