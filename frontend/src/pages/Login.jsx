@@ -163,7 +163,7 @@ const Login = () => {
             <Sparkles size={20} />
           </div>
 
-          <h2>AI Interview Coach</h2>
+          <h2>Interview Genie</h2>
 
         </div>
 

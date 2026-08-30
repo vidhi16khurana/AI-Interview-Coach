@@ -61,7 +61,7 @@ class CompleteInterviewRequest(BaseModel):
 @app.get("/")
 def home():
     return {
-        "message": "AI Interview Coach Backend Running"
+        "message": "Interview Genie Backend Running"
     }
 
 

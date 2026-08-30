@@ -43,7 +43,7 @@ const Sidebar = () => {
           <Sparkles size={15} />
         </div>
 
-        <span>AI Interview Coach</span>
+        <span>Interview Genie</span>
       </div>
 
       <nav className="nav-menu">

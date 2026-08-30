@@ -53,7 +53,7 @@ function App() {
   if (loading) {
     return (
       <div className="app-loader">
-        Loading AI Interview Coach...
+        Loading Interview Genie...
       </div>
     );
   }

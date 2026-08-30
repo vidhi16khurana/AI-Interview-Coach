@@ -120,7 +120,7 @@ const Settings = () => {
             <h2>Logout</h2>
 
             <p>
-              Sign out from your AI Interview Coach account.
+              Sign out from your Interview Genie account.
             </p>
           </div>
 
