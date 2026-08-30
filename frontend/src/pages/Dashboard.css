@@ -11,31 +11,22 @@ body,
   min-height: 100%;
   margin: 0;
   overflow-x: hidden;
-}
-
-/* ================= MAIN DASHBOARD WRAPPER ================= */
-
-.dashboard-wrapper {
-  width: 100%;
-  min-height: 100vh;
-  display: flex;
   background: #f7f8fc;
-  font-family: Arial, sans-serif;
-  color: #25233a;
 }
 
-/* ================= MAIN CONTENT AREA ================= */
+/* ================= MAIN CONTENT CONTAINER ================= */
 
 .main-content {
-  width: calc(100% - 250px);
-  margin-left: 250px;
+  width: 100%;
+  flex: 1;
+  margin-left: 0 !important;
   min-height: 100vh;
   background: #f7f8fc;
-  overflow-x: hidden;
-  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
 }
 
-/* ================= HEADER ================= */
+/* ================= TOP HEADER ================= */
 
 .top-header {
   height: 68px;
@@ -97,12 +88,11 @@ body,
 
 .content {
   width: 100%;
-  max-width: 1300px;
-  margin: 0 auto;
   padding: 28px 32px 40px;
+  margin: 0;
 }
 
-/* ================= WELCOME ================= */
+/* ================= WELCOME SECTION ================= */
 
 .welcome-section {
   margin-bottom: 24px;
@@ -186,7 +176,7 @@ body,
   color: #6844c5 !important;
 }
 
-/* ================= DASHBOARD GRID & PANELS ================= */
+/* ================= DASHBOARD GRID ================= */
 
 .dashboard-grid {
   display: grid;
@@ -427,68 +417,14 @@ body,
   .dashboard-grid {
     grid-template-columns: 1fr;
   }
-
-  .content {
-    padding: 24px 24px 40px;
-  }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 600px) {
   .top-cards {
     grid-template-columns: 1fr;
   }
 
-  .top-header {
-    padding: 0 20px;
-  }
-
   .content {
-    padding: 24px 20px;
-  }
-}
-
-@media (max-width: 700px) {
-  .main-content {
-    width: calc(100% - 70px);
-    margin-left: 70px;
-  }
-
-  .profile div:nth-child(2),
-  .profile > svg,
-  .header-right > svg {
-    display: none;
-  }
-
-  .profile {
-    border-left: none;
-    padding-left: 0;
-  }
-}
-
-@media (max-width: 500px) {
-  .main-content {
-    width: 100%;
-    margin-left: 0;
-  }
-
-  .top-header {
-    padding: 0 14px;
-  }
-
-  .content {
-    width: 100%;
-    padding: 24px 16px;
-  }
-
-  .action-card {
-    flex-direction: column;
-  }
-
-  .welcome-section h1 {
-    font-size: 21px;
-  }
-
-  .progress-stats {
-    grid-template-columns: 1fr;
+    padding: 20px 16px;
   }
 }

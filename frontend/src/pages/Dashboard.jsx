@@ -25,7 +25,6 @@ const Dashboard = () => {
     return () => unsubscribe();
   }, []);
 
-  // Firebase user details
   const userName =
     user?.displayName ||
     user?.email?.split("@")[0] ||
@@ -41,234 +40,216 @@ const Dashboard = () => {
     .toUpperCase();
 
   return (
-    <div className="dashboard-wrapper">
-      <div className="main-content">
-        {/* HEADER */}
-        <header className="top-header">
-          <div></div>
+    <div className="main-content">
+      {/* TOP HEADER */}
+      <header className="top-header">
+        <div></div>
 
-          <div className="header-right">
-            <Bell size={19} />
+        <div className="header-right">
+          <Bell size={19} />
 
-            <div className="profile">
-              {user?.photoURL ? (
-                <img
-                  src={user.photoURL}
-                  alt={userName}
-                  className="avatar"
-                />
-              ) : (
-                <div className="avatar">{initials}</div>
-              )}
+          <div className="profile">
+            {user?.photoURL ? (
+              <img
+                src={user.photoURL}
+                alt={userName}
+                className="avatar"
+              />
+            ) : (
+              <div className="avatar">{initials}</div>
+            )}
 
-              <div>
-                <strong>{userName}</strong>
-                <span>{userEmail}</span>
-              </div>
+            <div>
+              <strong>{userName}</strong>
+              <span>{userEmail}</span>
+            </div>
 
-              <ChevronDown size={16} />
+            <ChevronDown size={16} />
+          </div>
+        </div>
+      </header>
+
+      {/* MAIN CONTENT AREA */}
+      <main className="content">
+        {/* WELCOME */}
+        <section className="welcome-section">
+          <h1>Hello, {userName}! 👋</h1>
+          <p>Ready to improve your interview skills today?</p>
+        </section>
+
+        {/* TOP CARDS */}
+        <section className="top-cards">
+          <div className="action-card">
+            <div className="card-icon">
+              <Mic size={24} />
+            </div>
+
+            <div className="card-info">
+              <h3>Mock Interview</h3>
+              <p>
+                Practice with AI-generated interview questions and get instant feedback.
+              </p>
+              <button>Start Interview</button>
             </div>
           </div>
-        </header>
 
-        {/* CONTENT */}
-        <main className="content">
-          {/* WELCOME */}
-          <section className="welcome-section">
-            <h1>Hello, {userName}! 👋</h1>
+          <div className="action-card">
+            <div className="card-icon">
+              <FileText size={24} />
+            </div>
 
-            <p>
-              Ready to improve your interview skills today?
-            </p>
-          </section>
+            <div className="card-info">
+              <h3>Resume Analysis</h3>
+              <p>
+                Upload your resume and get personalized AI suggestions.
+              </p>
+              <button className="outline-btn">Analyze Resume</button>
+            </div>
+          </div>
 
-          {/* TOP CARDS */}
-          <section className="top-cards">
-            <div className="action-card">
-              <div className="card-icon">
-                <Mic size={24} />
+          <div className="action-card">
+            <div className="card-icon">
+              <Play size={24} />
+            </div>
+
+            <div className="card-info">
+              <h3>Continue Practice</h3>
+              <p>
+                Continue your previous interview preparation session.
+              </p>
+              <button className="outline-btn">View Sessions</button>
+            </div>
+          </div>
+        </section>
+
+        {/* DASHBOARD GRID */}
+        <section className="dashboard-grid">
+          {/* LEFT COLUMN */}
+          <div className="left-column">
+            {/* RECENT SESSIONS */}
+            <div className="panel sessions-panel">
+              <h2>Recent Sessions</h2>
+
+              <div className="sessions-table">
+                <div className="table-header">
+                  <span>POSITION</span>
+                  <span>DATE</span>
+                  <span>SCORE</span>
+                  <span>STATUS</span>
+                </div>
+
+                <div className="table-row">
+                  <span>Frontend Developer</span>
+                  <span>Recently</span>
+                  <span>
+                    <span className="score-circle">0%</span>
+                  </span>
+                  <span>No sessions yet</span>
+                </div>
               </div>
 
-              <div className="card-info">
-                <h3>Mock Interview</h3>
-
-                <p>
-                  Practice with AI-generated interview questions and get instant feedback.
-                </p>
-
-                <button>Start Interview</button>
+              <div className="view-all">
+                View All Sessions
+                <ArrowRight size={14} />
               </div>
             </div>
 
-            <div className="action-card">
-              <div className="card-icon">
-                <FileText size={24} />
+            {/* RECOMMENDATIONS */}
+            <div className="panel recommendations-panel">
+              <h2>Recommended For You</h2>
+
+              <div className="recommendation-item">
+                <div className="recommendation-icon">
+                  <Mic size={16} />
+                </div>
+
+                <div>
+                  <h4>Practice Technical Questions</h4>
+                  <p>Improve your technical interview confidence.</p>
+                </div>
+
+                <ArrowRight size={16} />
               </div>
 
-              <div className="card-info">
-                <h3>Resume Analysis</h3>
+              <div className="recommendation-item">
+                <div className="recommendation-icon">
+                  <FileText size={16} />
+                </div>
 
-                <p>
-                  Upload your resume and get personalized AI suggestions.
-                </p>
+                <div>
+                  <h4>Analyze Your Resume</h4>
+                  <p>Get personalized suggestions for improvement.</p>
+                </div>
 
-                <button className="outline-btn">
-                  Analyze Resume
-                </button>
+                <ArrowRight size={16} />
+              </div>
+
+              <div className="recommendation-item">
+                <div className="recommendation-icon">
+                  <Brain size={16} />
+                </div>
+
+                <div>
+                  <h4>AI Interview Practice</h4>
+                  <p>Prepare with personalized interview questions.</p>
+                </div>
+
+                <ArrowRight size={16} />
+              </div>
+
+              <div className="explore">
+                Explore Resources
+                <ArrowRight size={14} />
               </div>
             </div>
+          </div>
 
-            <div className="action-card">
-              <div className="card-icon">
-                <Play size={24} />
-              </div>
+          {/* RIGHT COLUMN */}
+          <div className="right-column">
+            {/* PROGRESS */}
+            <div className="panel progress-panel">
+              <h2>Your Progress</h2>
 
-              <div className="card-info">
-                <h3>Continue Practice</h3>
-
-                <p>
-                  Continue your previous interview preparation session.
-                </p>
-
-                <button className="outline-btn">
-                  View Sessions
-                </button>
-              </div>
-            </div>
-          </section>
-
-          {/* DASHBOARD GRID */}
-          <section className="dashboard-grid">
-            {/* LEFT */}
-            <div className="left-column">
-              {/* RECENT SESSIONS */}
-              <div className="panel sessions-panel">
-                <h2>Recent Sessions</h2>
-
-                <div className="sessions-table">
-                  <div className="table-header">
-                    <span>POSITION</span>
-                    <span>DATE</span>
-                    <span>SCORE</span>
-                    <span>STATUS</span>
-                  </div>
-
-                  <div className="table-row">
-                    <span>Frontend Developer</span>
-                    <span>Recently</span>
-                    <span>
-                      <span className="score-circle">0%</span>
-                    </span>
-                    <span>No sessions yet</span>
-                  </div>
-                </div>
-
-                <div className="view-all">
-                  View All Sessions
-                  <ArrowRight size={14} />
+              <div className="progress-circle">
+                <div className="progress-inner">
+                  <strong>0%</strong>
                 </div>
               </div>
 
-              {/* RECOMMENDATIONS */}
-              <div className="panel recommendations-panel">
-                <h2>Recommended For You</h2>
+              <h3>Interview Readiness</h3>
 
-                <div className="recommendation-item">
-                  <div className="recommendation-icon">
-                    <Mic size={16} />
-                  </div>
-
-                  <div>
-                    <h4>Practice Technical Questions</h4>
-                    <p>Improve your technical interview confidence.</p>
-                  </div>
-
-                  <ArrowRight size={16} />
+              <div className="progress-stats">
+                <div>
+                  <span>Sessions</span>
+                  <strong>0</strong>
                 </div>
 
-                <div className="recommendation-item">
-                  <div className="recommendation-icon">
-                    <FileText size={16} />
-                  </div>
-
-                  <div>
-                    <h4>Analyze Your Resume</h4>
-                    <p>Get personalized suggestions for improvement.</p>
-                  </div>
-
-                  <ArrowRight size={16} />
+                <div>
+                  <span>Avg. Score</span>
+                  <strong>0%</strong>
                 </div>
 
-                <div className="recommendation-item">
-                  <div className="recommendation-icon">
-                    <Brain size={16} />
-                  </div>
-
-                  <div>
-                    <h4>AI Interview Practice</h4>
-                    <p>Prepare with personalized interview questions.</p>
-                  </div>
-
-                  <ArrowRight size={16} />
-                </div>
-
-                <div className="explore">
-                  Explore Resources
-                  <ArrowRight size={14} />
+                <div className="improvement">
+                  <span>Improvement</span>
+                  <strong>+0%</strong>
                 </div>
               </div>
             </div>
 
-            {/* RIGHT */}
-            <div className="right-column">
-              {/* PROGRESS */}
-              <div className="panel progress-panel">
-                <h2>Your Progress</h2>
+            {/* TIPS */}
+            <div className="panel tips-panel">
+              <h2>Interview Tips</h2>
 
-                <div className="progress-circle">
-                  <div className="progress-inner">
-                    <strong>0%</strong>
-                  </div>
-                </div>
-
-                <h3>Interview Readiness</h3>
-
-                <div className="progress-stats">
-                  <div>
-                    <span>Sessions</span>
-                    <strong>0</strong>
-                  </div>
-
-                  <div>
-                    <span>Avg. Score</span>
-                    <strong>0%</strong>
-                  </div>
-
-                  <div className="improvement">
-                    <span>Improvement</span>
-                    <strong>+0%</strong>
-                  </div>
-                </div>
-              </div>
-
-              {/* TIPS */}
-              <div className="panel tips-panel">
-                <h2>Interview Tips</h2>
-
-                <ul>
-                  <li>Practice answering questions clearly and confidently.</li>
-
-                  <li>Use the STAR method for behavioral questions.</li>
-
-                  <li>Research the company before your interview.</li>
-
-                  <li>Review your feedback after every practice session.</li>
-                </ul>
-              </div>
+              <ul>
+                <li>Practice answering questions clearly and confidently.</li>
+                <li>Use the STAR method for behavioral questions.</li>
+                <li>Research the company before your interview.</li>
+                <li>Review your feedback after every practice session.</li>
+              </ul>
             </div>
-          </section>
-        </main>
-      </div>
+          </div>
+        </section>
+      </main>
     </div>
   );
 };

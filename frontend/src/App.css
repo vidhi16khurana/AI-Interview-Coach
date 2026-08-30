@@ -176,6 +176,5 @@ pre {
 
 .app-content {
   flex: 1;
-  margin-left: 250px;
   min-width: 0;
 }
