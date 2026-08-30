@@ -23,7 +23,8 @@ app.add_middleware(
         "http://localhost:5174",
         "http://127.0.0.1:5173",
         "http://127.0.0.1:5174",
-        "https://ai-interview-coach-nine-flame.vercel.app"
+        "https://interview-genie-delta.vercel.app",
+        "https://ai-interview-coach-nine-flame.vercel.app",
     ],
     allow_credentials=True,
     allow_methods=["*"],
@@ -114,10 +115,6 @@ def evaluate(data: AnswerRequest):
         "evaluation": result
     }
 
-
-# ============================================================
-# EVALUATE COMPLETE INTERVIEW
-# ============================================================
 
 @app.post("/evaluate-interview")
 def evaluate_complete_interview(data: CompleteInterviewRequest):
