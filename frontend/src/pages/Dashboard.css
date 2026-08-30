@@ -14,6 +14,7 @@ body,
 }
 
 .dashboard {
+  width: 100%;
   min-height: 100vh;
   display: flex;
   background: #f7f8fc;
@@ -26,6 +27,7 @@ body,
 
 .sidebar {
   width: 250px;
+  min-width: 250px;
   min-height: 100vh;
   background: linear-gradient(180deg, #241542 0%, #321b5a 100%);
   color: white;
@@ -97,56 +99,33 @@ body,
   margin-top: 8px;
 }
 
-.upgrade-card {
-  margin-top: auto;
-  padding: 16px;
-  border-radius: 12px;
-  background: rgba(70, 44, 112, 0.75);
-}
-
-.upgrade-title {
-  color: #f4cf54;
-  font-size: 13px;
-  font-weight: 700;
-  margin-bottom: 10px;
-}
-
-.upgrade-card p {
-  font-size: 11px;
-  color: #d1c9dd;
-  line-height: 1.6;
-  margin-bottom: 14px;
-}
-
-.upgrade-card button {
-  width: 100%;
-  border: none;
-  padding: 10px;
-  border-radius: 6px;
-  background: linear-gradient(90deg, #7139d8, #a638e8);
-  color: white;
-  cursor: pointer;
-  font-size: 12px;
-  font-weight: 600;
-}
-
-/* ================= MAIN ================= */
+/* ================= MAIN CONTENT ================= */
 
 .main-content {
-  width: calc(100% - 250px);
-  margin-left: 250px;
+  position: relative;
   min-height: 100vh;
-  flex: 1;
+  width: calc(100vw - 250px);
+  margin-left: 250px !important;
+  padding: 0 !important;
+  flex: none !important;
+  background: #f7f8fc;
+  overflow-x: hidden;
 }
 
+/* ================= HEADER ================= */
+
 .top-header {
+  width: 100% !important;
   height: 68px;
-  width: 100%;
+  margin: 0 !important;
+  margin-left: 0 !important;
+  padding: 0 32px;
   background: white;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 32px;
+
   border-bottom: 1px solid #ececf2;
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.03);
 }
@@ -197,10 +176,17 @@ body,
 /* ================= CONTENT ================= */
 
 .content {
-  width: 100%;
-  max-width: none;
-  padding: 28px 32px 40px;
+  width: 100% !important;
+  max-width: none !important;
+  min-height: calc(100vh - 68px);
+
+  margin: 0 !important;
+  margin-left: 0 !important;
+
+  padding: 28px 32px 40px !important;
 }
+
+/* ================= WELCOME ================= */
 
 .welcome-section {
   margin-bottom: 24px;
@@ -220,6 +206,7 @@ body,
 /* ================= TOP CARDS ================= */
 
 .top-cards {
+  width: 100%;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 18px;
@@ -227,8 +214,9 @@ body,
 }
 
 .action-card {
-  background: white;
+  min-width: 0;
   min-height: 145px;
+  background: white;
   border-radius: 12px;
   padding: 20px;
   display: flex;
@@ -286,6 +274,7 @@ body,
 /* ================= DASHBOARD GRID ================= */
 
 .dashboard-grid {
+  width: 100%;
   display: grid;
   grid-template-columns: minmax(0, 2fr) minmax(300px, 1fr);
   gap: 20px;
@@ -313,8 +302,6 @@ body,
 }
 
 /* ================= TABLE ================= */
-
-
 
 .table-header,
 .table-row {
@@ -512,7 +499,6 @@ body,
 
 /* ================= RESPONSIVE ================= */
 
-/* IMPORTANT: 1100 ki jagah 900 */
 @media (max-width: 900px) {
   .top-cards {
     grid-template-columns: 1fr;
@@ -527,13 +513,14 @@ body,
   }
 
   .content {
-    padding: 24px 20px;
+    padding: 24px 20px !important;
   }
 }
 
 @media (max-width: 700px) {
   .sidebar {
     width: 70px;
+    min-width: 70px;
     padding: 18px 10px;
   }
 
@@ -554,12 +541,13 @@ body,
   }
 
   .main-content {
-  width: calc(100% - 250px);
-  margin-left: 250px;
-  min-height: 100vh;
-  background: #f7f8fc;
-  overflow-x: hidden;
-}
+    width: calc(100vw - 70px);
+    margin-left: 70px !important;
+  }
+
+  .top-header {
+    margin-left: 0 !important;
+  }
 
   .profile div:nth-child(2),
   .profile > svg,
@@ -579,11 +567,10 @@ body,
   }
 
   .content {
-  width: 100%;
-  padding: 28px 32px;
-  max-width: none;
-  margin: 0 auto;
-}
+    width: 100% !important;
+    padding: 24px 14px !important;
+    margin: 0 !important;
+  }
 
   .action-card {
     flex-direction: column;
