@@ -103,6 +103,43 @@ const InterviewReport = () => {
 
         if (Array.isArray(results)) {
           setEvaluations(results);
+          const scoreList = results
+  .map((evaluation) => {
+    const match = evaluation.match(
+      /score\s*:\s*(\d+(?:\.\d+)?)\s*(?:\/\s*10|out of 10)/i
+    );
+
+    return match ? Number(match[1]) : null;
+  })
+  .filter((score) => score !== null);
+
+const finalScore =
+  scoreList.length > 0
+    ? (
+        scoreList.reduce((sum, score) => sum + score, 0) /
+        scoreList.length
+      ).toFixed(1)
+    : "0";
+
+const newSession = {
+  id: Date.now(),
+  role: selectedRole,
+  type: `${interviewType} Interview`,
+  experience,
+  score: finalScore,
+  date: new Date().toLocaleDateString(),
+};
+
+const existingSessions =
+  JSON.parse(localStorage.getItem("interviewSessions")) || [];
+
+localStorage.setItem(
+  "interviewSessions",
+  JSON.stringify([
+    newSession,
+    ...existingSessions,
+  ])
+);
         } else {
           console.error("Invalid evaluation response:", response.data);
 

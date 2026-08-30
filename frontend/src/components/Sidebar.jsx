@@ -10,15 +10,29 @@ import {
   Sparkles,
 } from "lucide-react";
 
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const Sidebar = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    const confirmLogout = window.confirm(
+      "Are you sure you want to logout?"
+    );
+
+    if (confirmLogout) {
+      localStorage.removeItem("userProfile");
+      navigate("/");
+    }
+  };
+
   return (
     <aside className="sidebar">
       <div className="sidebar-logo">
         <div className="logo-icon">
           <Sparkles size={15} />
         </div>
+
         <span>AI Interview Coach</span>
       </div>
 
@@ -94,7 +108,10 @@ const Sidebar = () => {
           <span>Settings</span>
         </NavLink>
 
-        <button className="nav-item logout">
+        <button
+          className="nav-item logout"
+          onClick={handleLogout}
+        >
           <LogOut size={18} />
           <span>Logout</span>
         </button>
